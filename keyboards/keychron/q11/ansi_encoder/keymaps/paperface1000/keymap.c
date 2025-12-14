@@ -18,38 +18,20 @@
 #include "keychron_common.h"
 #include <print.h>
 
-static uint16_t win_space_timer; // グローバル変数として定義
-
 enum layers{
     MAC_BASE,
     MAC_FN,
     WIN_BASE,
     WIN_FN,
-    WIN_MAC_CTRL,
-    WIN_MAC_COMMAND,
-    MOUSE,
-    MOUSE_SCROLL,
 };
 
-enum custom_keycodes {
-    MAC_L_CTRL = SAFE_RANGE,
-    MAC_L_COMMAND,
-    EMACS_CTRL_K,
-    WIN_SPACE,    // 英語キーボード切り替え用
-    WIN_SPACE_JP, // 日本語キーボード切り替え用
-    SCROLL_LAYER,
-    CUSTOM_KC_LBRC, // カスタム[
-    LOWER,
-    RAISE,
-    // for mytap_t
-    LT_ESC,
-    RT_SPC,
-    CT_DEL,
-    // ST_SPC,
+// keychron_common.hで定義されているSAFE_RANGEの後に追加のカスタムキーコードを定義
+enum {
+    EMACS_CTRL_K = SAFE_RANGE,
+    WIN_SPACE,
+    WIN_SPACE_JP,
+    CUSTOM_KC_LBRC,
 };
-
-#define KC_TASK LGUI(KC_TAB)
-#define KC_FLXP LGUI(KC_E)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC_BASE] = LAYOUT_91_ansi(
@@ -69,55 +51,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,  _______,  _______,            _______,                       _______,            _______,  _______,    _______,  _______,  _______,  _______),
 
     [WIN_BASE] = LAYOUT_91_ansi(
-        KC_MUTE,  KC_ESC,            KC_F1,    KC_F2,                   KC_F3,            KC_LWIN,  KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,               KC_F11,     KC_F12,   KC_INS,   KC_DEL,   KC_HOME,
-        MC_1,     KC_GRV,            KC_1,     KC_2,                    KC_3,             KC_4,     KC_5,      KC_6,     KC_7,     KC_8,     KC_9,     KC_0,                 KC_MINS,    KC_EQL,   KC_BSPC,            KC_PGUP,
-        MC_2,     KC_TAB,            KC_Q,     KC_W,                    KC_E,             KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,                 KC_LBRC,    KC_RBRC,  KC_BSLS,            KC_PGDN,
-        MC_3,     MO(WIN_MAC_CTRL),  KC_A,     LT(MOUSE_SCROLL, KC_S),  LT(MOUSE, KC_D),  KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,              KC_QUOT,              KC_ENT,             KC_HOME,
-        MC_4,     KC_LSFT,                     KC_Z,                    KC_X,             KC_C,     KC_V,      KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,               KC_SLSH,              KC_RSFT,  KC_UP,
-        MC_5,     KC_ESC,            KC_LCTL,  WIN_LALT,                LT(LCTL, KC_MHEN),                 KC_SPC,                        KC_SPC,      LT(KC_RCTL, KC_HENK), MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
-
-    [WIN_MAC_CTRL] = LAYOUT_91_ansi(
-        _______,  _______,     _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,     _______,     _______,     _______,     _______,  _______,     _______,     _______,
-        _______,  _______,     _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,     _______,     _______,     _______,     _______,  _______,                  _______,
-        _______,  C(KC_TAB),   C(KC_Q),  C(KC_W),  KC_END,   C(KC_R),    C(KC_T),  C(KC_Y),  C(KC_U),  C(KC_I),     C(KC_O),     C(KC_P),     C(KC_LBRC),  C(KC_RBRC),  C(KC_BSLS),         _______,
-        _______,  _______,     KC_HOME,  C(KC_S),  KC_DEL,   KC_KC_RGHT, C(KC_G),  KC_BSPC,  KC_DOWN,  KC_UP,       C(KC_L),     KC_ESC,      KC_F10,                   C(KC_ENT),           _______,
-        _______,  C(KC_LSFT),            C(KC_Z),  C(KC_X),  C(KC_C),    C(KC_V),  C(KC_B),  C(KC_N),  KC_ENT,      C(KC_COMM),  C(KC_DOT),   C(KC_SLSH),               C(KC_RSFT),  _______,
-        _______,  _______,     _______,  _______,  _______,              _______,                     _______,                  _______,     _______,     _______,     _______,     _______,  _______
-    ),
-
-    [WIN_MAC_COMMAND] = LAYOUT_91_ansi(
-        _______,  _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FLXP,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,  _______,  _______,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
-        _______,  _______,            _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            _______,  _______,
-        _______,  _______,  _______,  _______,  _______,            _______,                      _______,            _______,  _______,  _______,  _______,  _______,  _______),
+        KC_MUTE,  KC_ESC,            KC_F1,    KC_F2,                   KC_F3,            KC_LWIN,  KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,     KC_F12,   KC_INS,   KC_DEL,   KC_HOME,
+        MC_1,     KC_GRV,            KC_1,     KC_2,                    KC_3,             KC_4,     KC_5,      KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,    KC_EQL,   KC_BSPC,            KC_PGUP,
+        MC_2,     KC_TAB,            KC_Q,     KC_W,                    KC_E,             KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,    KC_RBRC,  KC_BSLS,            KC_PGDN,
+        MC_3,     MO(WIN_FN),        KC_A,     KC_S,                    KC_D,             KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,              KC_ENT,             KC_HOME,
+        MC_4,     KC_LSFT,                     KC_Z,                    KC_X,             KC_C,     KC_V,      KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,  KC_UP,
+        MC_5,     KC_ESC,            KC_LWIN,  KC_LALT,                 LCTL_T(KC_F13),                 KC_SPC,                        KC_SPC,        RCTL_T(KC_F14),  MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [WIN_FN] = LAYOUT_91_ansi(
-        RGB_TOG,  QK_BOOT,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FLXP,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,  _______,  RGB_TOG,
-        _______,  DB_TOGG,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  RGB_SPI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  _______,  RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  RGB_SPD,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
-        _______,  _______,            _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            _______,  _______,
-        _______,  _______,  _______,  _______,  _______,            _______,                      _______,            _______,  _______,  _______,  _______,  _______,  _______
-    ),
-
-    [MOUSE] = LAYOUT_91_ansi(
-        _______,  _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FLXP,  RGB_VAD,  RGB_VAI,     KC_MPRV,     KC_MPLY,  KC_MNXT,      KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,  _______,  _______,
-        _______,  _______,  KC_BTN1,  KC_BTN2,  _______,  _______,  _______,  _______,     _______,     _______,  _______,      _______,  _______,  _______,  _______,            _______,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,     _______,     _______,  _______,      KC_UP,    _______,  _______,  _______,            _______,
-        _______,  _______,  _______,  _______,  _______,  KC_ACL2,  KC_ACL0,  KC_MS_LEFT,  KC_MS_DOWN,  KC_MS_UP, KC_MS_RIGHT,  _______,  _______,            _______,            _______,
-        _______,  _______,            _______,  _______,  _______,  _______,  KC_BTN1,     KC_BTN2,     _______,  _______,      _______,            _______,  _______,
-        _______,  _______,  _______,  _______,  _______,            _______,                            _______,                _______,  _______,  _______,  _______,  _______,  _______
-    ),
-
-    [MOUSE_SCROLL] = LAYOUT_91_ansi(
-        _______,  _______,  KC_BRID,  KC_BRIU,  KC_TASK,  KC_FLXP,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,  _______,  _______,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  _______,  _______,  _______,  _______,  KC_ACL2,  KC_ACL0,  _______,  KC_WH_D,  KC_WH_U,  _______,  _______,  _______,            _______,            _______,
-        _______,  _______,            _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,  _______,
-        _______,  _______,  _______,  _______,  _______,            _______,                      _______,            _______,  _______,  _______,  _______,  _______,  _______
+        _______,  _______,     _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,     _______,     _______,     _______,     _______,  _______,     _______,     _______,
+        _______,  _______,     _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,     _______,     _______,     _______,     _______,  _______,                  _______,
+        _______,  C(KC_TAB),   C(KC_Q),  C(KC_W),  KC_END,   C(KC_R),    C(KC_T),  C(KC_Y),  C(KC_U),  C(KC_I),     C(KC_O),     KC_UP,     C(KC_LBRC),  C(KC_RBRC),  C(KC_BSLS),         _______,
+        _______,  _______,     KC_HOME,  C(KC_S),  KC_DEL,   KC_RGHT,    C(KC_G),  KC_BSPC,  C(KC_J),  C(KC_K),     C(KC_L),     KC_ESC,      KC_F10,                   C(KC_ENT),           _______,
+        _______,  C(KC_LSFT),            C(KC_Z),  C(KC_X),  C(KC_C),    C(KC_V),  KC_LEFT,  KC_DOWN,  KC_ENT,      C(KC_DOT),   C(KC_COMM), C(KC_SLSH),               C(KC_RSFT),  _______,
+        _______,  _______,     _______,  _______,  _______,              _______,                     C(KC_SPC),                 C(KC_SPC),   _______,     _______,     _______,     _______,  _______
     ),
 };
 
@@ -126,11 +73,7 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
     [MAC_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R) },
     [MAC_FN]   = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
     [WIN_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
-    [WIN_MAC_CTRL] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
-    [WIN_MAC_COMMAND] = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
-    [WIN_FN]   = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
-    [MOUSE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
-    [MOUSE_SCROLL] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)}
+    [WIN_FN]   = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
 };
 #endif // ENCODER_MAP_ENABLE
 
@@ -141,78 +84,10 @@ void keyboard_post_init_user(void) {
   // 希望する動作に合わせて値をカスタマイズします
 //   debug_enable=true;
 //   debug_matrix=true;
-  debug_keyboard=true;
-  debug_mouse=true;
+  debug_keyboard=false;
+  debug_mouse=false;
 }
 
 void housekeeping_task_user(void) {
     housekeeping_task_keychron();
-}
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    #ifdef CONSOLE_ENABLE
-        uprintf("KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
-    #endif 
-    
-    if (!process_record_keychron(keycode, record)) {
-        return false;
-    }
-
-    switch (keycode) {
-        case EMACS_CTRL_K:
-            if (record->event.pressed) {
-                 // Ctrl + Shift を押す
-                register_code(KC_LCTL);
-                register_code(KC_LSFT);
-                // End を押して放す
-                tap_code(KC_END);
-                // Ctrl + Shift を放す
-                unregister_code(KC_LSFT);
-                unregister_code(KC_LCTL);
-                // Ctrl + X を押して、選択範囲をカット
-                register_code(KC_LCTL);
-                tap_code(KC_X);
-                unregister_code(KC_LCTL);
-            }
-            return false;
-            break;
-        case WIN_SPACE:
-            if (record->event.pressed) {
-                // キーが押されたときの処理
-                win_space_timer = timer_read(); // タイマー開始
-                layer_on(WIN_MAC_CTRL);
-            } else {
-                // キーが離されたときの処理
-                layer_off(WIN_MAC_CTRL);
-                if (timer_elapsed(win_space_timer) < TAPPING_TERM) {
-                    // タップされた場合の処理
-                    SEND_STRING(SS_DOWN(X_LGUI) SS_TAP(X_SPACE) SS_UP(X_LGUI)); // Win + Space
-                } else {
-                    // 長押しの場合の処理（ここでは何もしない）
-                    // 通常、Ctrl の動作は別途 MT(MOD_LCTL, KC_???) などでマップする必要がある
-                }
-            }
-            return false; // これ以上の処理をしない
-            break;
-        case WIN_SPACE_JP:
-            if (record->event.pressed) {
-                register_code(KC_GRV);
-                unregister_code(KC_GRV);
-            }
-            return false;
-            break;
-        case CUSTOM_KC_LBRC:
-            if (record->event.pressed) {
-                register_code(KC_ESC);
-                unregister_code(KC_ESC);
-                register_code(KC_LCTL);
-                register_code(KC_LBRC);
-                unregister_code(KC_LBRC);
-                unregister_code(KC_LCTL);
-            }
-            return false;
-            break;
-    }
-
-    return true;
 }
