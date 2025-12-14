@@ -69,7 +69,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,  _______,  _______,            _______,                       _______,            _______,  _______,    _______,  _______,  _______,  _______),
 
     [WIN_BASE] = LAYOUT_91_ansi(
-        KC_MUTE,  KC_ESC,            KC_F1,    KC_F2,                   KC_F3,            KC_LWIN,  KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,               KC_F11,     KC_F12,   KC_INS,   KC_DEL,   KC_MUTE,
+        KC_MUTE,  KC_ESC,            KC_F1,    KC_F2,                   KC_F3,            KC_LWIN,  KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,               KC_F11,     KC_F12,   KC_INS,   KC_DEL,   KC_HOME,
         MC_1,     KC_GRV,            KC_1,     KC_2,                    KC_3,             KC_4,     KC_5,      KC_6,     KC_7,     KC_8,     KC_9,     KC_0,                 KC_MINS,    KC_EQL,   KC_BSPC,            KC_PGUP,
         MC_2,     KC_TAB,            KC_Q,     KC_W,                    KC_E,             KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,                 KC_LBRC,    KC_RBRC,  KC_BSLS,            KC_PGDN,
         MC_3,     MO(WIN_MAC_CTRL),  KC_A,     LT(MOUSE_SCROLL, KC_S),  LT(MOUSE, KC_D),  KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,              KC_QUOT,              KC_ENT,             KC_HOME,
@@ -123,14 +123,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #if defined(ENCODER_ENABLE) && defined(ENCODER_MAP_ENABLE)
 const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
-    [MAC_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
-    [MAC_FN]   = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
-    [WIN_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [WIN_MAC_CTRL] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [WIN_MAC_COMMAND] = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
-    [WIN_FN]   = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(RGB_VAD, RGB_VAI)},
-    [MOUSE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)},
-    [MOUSE_SCROLL] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_VOLD, KC_VOLU)}
+    [MAC_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R) },
+    [MAC_FN]   = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
+    [WIN_BASE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
+    [WIN_MAC_CTRL] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
+    [WIN_MAC_COMMAND] = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
+    [WIN_FN]   = { ENCODER_CCW_CW(RGB_VAD, RGB_VAI), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
+    [MOUSE] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)},
+    [MOUSE_SCROLL] = { ENCODER_CCW_CW(KC_VOLD, KC_VOLU), ENCODER_CCW_CW(KC_WH_L, KC_WH_R)}
 };
 #endif // ENCODER_MAP_ENABLE
 
