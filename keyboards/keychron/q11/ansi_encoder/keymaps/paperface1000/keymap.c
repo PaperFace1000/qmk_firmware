@@ -69,20 +69,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         _______,  _______,  _______,  _______,  _______,            _______,                       _______,            _______,  _______,    _______,  _______,  _______,  _______),
 
     [WIN_BASE] = LAYOUT_91_ansi(
-        KC_MUTE,  KC_ESC,            KC_F1,    KC_F2,                   KC_F3,            KC_LWIN,  KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,     KC_F12,   KC_INS,   KC_DEL,   KC_MUTE,
-        MC_1,     KC_GRV,            KC_1,     KC_2,                    KC_3,             KC_4,     KC_5,      KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,    KC_EQL,   KC_BSPC,            KC_PGUP,
-        MC_2,     KC_TAB,            KC_Q,     KC_W,                    KC_E,             KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     KC_LBRC,    KC_RBRC,  KC_BSLS,            KC_PGDN,
-        MC_3,     MO(WIN_MAC_CTRL),  KC_A,     LT(MOUSE_SCROLL, KC_S),  LT(MOUSE, KC_D),  KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,  KC_QUOT,              KC_ENT,             KC_HOME,
-        MC_4,     KC_LSFT,                     KC_Z,                    KC_X,             KC_C,     KC_V,      KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,              KC_RSFT,  KC_UP,
-        MC_5,     KC_LCTL,           KC_LALT,  WIN_SPACE,               MO(WIN_FN),                 KC_SPC,                        KC_SPC,             KC_LCTL,  MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
+        KC_MUTE,  KC_ESC,            KC_F1,    KC_F2,                   KC_F3,            KC_LWIN,  KC_F5,     KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,               KC_F11,     KC_F12,   KC_INS,   KC_DEL,   KC_MUTE,
+        MC_1,     KC_GRV,            KC_1,     KC_2,                    KC_3,             KC_4,     KC_5,      KC_6,     KC_7,     KC_8,     KC_9,     KC_0,                 KC_MINS,    KC_EQL,   KC_BSPC,            KC_PGUP,
+        MC_2,     KC_TAB,            KC_Q,     KC_W,                    KC_E,             KC_R,     KC_T,      KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,                 KC_LBRC,    KC_RBRC,  KC_BSLS,            KC_PGDN,
+        MC_3,     MO(WIN_MAC_CTRL),  KC_A,     LT(MOUSE_SCROLL, KC_S),  LT(MOUSE, KC_D),  KC_F,     KC_G,      KC_H,     KC_J,     KC_K,     KC_L,     KC_SCLN,              KC_QUOT,              KC_ENT,             KC_HOME,
+        MC_4,     KC_LSFT,                     KC_Z,                    KC_X,             KC_C,     KC_V,      KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,               KC_SLSH,              KC_RSFT,  KC_UP,
+        MC_5,     KC_ESC,            KC_LCTL,  WIN_LALT,                LT(LCTL, KC_MHEN),                 KC_SPC,                        KC_SPC,      LT(KC_RCTL, KC_HENK), MO(WIN_FN), KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [WIN_MAC_CTRL] = LAYOUT_91_ansi(
-        _______,  _______,     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,     _______,     _______,     _______,     _______,  _______,     _______,     _______,
-        _______,  _______,     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,     _______,     _______,     _______,     _______,  _______,                  _______,
-        _______,  C(KC_TAB),   C(KC_Q),  C(KC_W),  C(KC_E),  C(KC_R),  C(KC_T),  C(KC_Y),  C(KC_U),  C(KC_I),     C(KC_O),     C(KC_P),     C(KC_LBRC),  C(KC_RBRC),  C(KC_BSLS),         _______,
-        _______,  _______,     C(KC_A),  C(KC_S),  C(KC_D),  C(KC_F),  C(KC_G),  KC_BSPC,  KC_PENT,  C(KC_K),     C(KC_L),     C(KC_SCLN),  KC_F10,                   C(KC_ENT),           _______,
-        _______,  C(KC_LSFT),            C(KC_Z),  C(KC_X),  C(KC_C),  C(KC_V),  C(KC_B),  C(KC_N),  C(KC_M),     C(KC_COMM),  C(KC_DOT),   C(KC_SLSH),               C(KC_RSFT),  _______,
-        _______,  _______,     _______,  _______,  _______,            _______,                      _______,                  _______,     _______,     _______,     _______,     _______,  _______
+        _______,  _______,     _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,     _______,     _______,     _______,     _______,  _______,     _______,     _______,
+        _______,  _______,     _______,  _______,  _______,  _______,    _______,  _______,  _______,  _______,     _______,     _______,     _______,     _______,  _______,                  _______,
+        _______,  C(KC_TAB),   C(KC_Q),  C(KC_W),  KC_END,   C(KC_R),    C(KC_T),  C(KC_Y),  C(KC_U),  C(KC_I),     C(KC_O),     C(KC_P),     C(KC_LBRC),  C(KC_RBRC),  C(KC_BSLS),         _______,
+        _______,  _______,     KC_HOME,  C(KC_S),  KC_DEL,   KC_KC_RGHT, C(KC_G),  KC_BSPC,  KC_DOWN,  KC_UP,       C(KC_L),     KC_ESC,      KC_F10,                   C(KC_ENT),           _______,
+        _______,  C(KC_LSFT),            C(KC_Z),  C(KC_X),  C(KC_C),    C(KC_V),  C(KC_B),  C(KC_N),  KC_ENT,      C(KC_COMM),  C(KC_DOT),   C(KC_SLSH),               C(KC_RSFT),  _______,
+        _______,  _______,     _______,  _______,  _______,              _______,                     _______,                  _______,     _______,     _______,     _______,     _______,  _______
     ),
 
     [WIN_MAC_COMMAND] = LAYOUT_91_ansi(
